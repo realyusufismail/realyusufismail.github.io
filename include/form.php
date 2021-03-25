@@ -27,8 +27,8 @@ require 'phpmailer/src/SMTP.php';
 $toemails = array();
 
 $toemails[] = array(
-				'email' => 'your-email@website.com', // Your Email Address
-				'name' => 'Your Name' // Your Name
+				'email' => 'yusufgamer222@gmail.com', // Your Email Address
+				'name' => 'Yusuf' // Your Name
 			);
 
 
@@ -38,7 +38,7 @@ $toemails[] = array(
 
 $fromemail = array(
 				'email' => 'no-reply@website.com', // Company's Email Address (preferably currently used Domain Name)
-				'name' => 'Company Name' // Company Name
+				'name' => 'Yusuf' // Company Name
 			);
 
 
@@ -47,7 +47,7 @@ $fromemail = array(
 ---------------------------------------------------*/
 
 // Add this only if you use reCaptcha with your Contact Forms
-$recaptcha_secret = ''; // Your reCaptcha Secret
+$recaptcha_secret = '6LdzGo4aAAAAABKlUaGnsPJv9e4AquWUIXtpC1U-'; // Your reCaptcha Secret
 
 
 /*-------------------------------------------------
