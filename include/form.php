@@ -9,7 +9,7 @@
 
 
 /*-------------------------------------------------
-	PHPMailer Initialization
+	PHPMailer Initialization Files
 ---------------------------------------------------*/
 
 use PHPMailer\PHPMailer\PHPMailer;
@@ -37,8 +37,8 @@ $toemails[] = array(
 ---------------------------------------------------*/
 
 $fromemail = array(
-				'email' => 'no-reply@website.com', // Company's Email Address (preferably currently used Domain Name)
-				'name' => 'Yusuf' // Company Name
+				'email' => 'yusufgamer222@gmail.com', // Company's Email Address (preferably currently used Domain Name)
+				'name' => 'Yusuf Ismail' // Company Name
 			);
 
 
@@ -47,7 +47,7 @@ $fromemail = array(
 ---------------------------------------------------*/
 
 // Add this only if you use reCaptcha with your Contact Forms
-$recaptcha_secret = '6LdzGo4aAAAAABKlUaGnsPJv9e4AquWUIXtpC1U-'; // Your reCaptcha Secret
+$recaptcha_secret = ''; // Your reCaptcha Secret
 
 
 /*-------------------------------------------------
@@ -73,17 +73,6 @@ $message = array(
 	'error_unexpected'	=> 'An <strong>unexpected error</strong> occured. Please Try Again later.',
 	'recaptcha_invalid'	=> 'Captcha not Validated! Please Try Again!',
 	'recaptcha_error'	=> 'Captcha not Submitted! Please Try Again.'
-);
-
-
-/*-------------------------------------------------
-	Blocked Words from Forms
----------------------------------------------------*/
-
-$spam_keywords = array(
-	'viagra',
-	'cialis',
-	'levitra'
 );
 
 
@@ -122,30 +111,6 @@ if( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 	if( $botpassed == false ) {
 		echo '{ "alert": "error", "message": "' . $message['error_bot'] . '" }';
 		exit;
-	}
-
-
-	/*-------------------------------------------------
-		SPAM Protection
-	---------------------------------------------------*/
-
-	function spam_keyword_check( $submitted, $spamwords ) {
-		if( is_array( $submitted ) ) {
-			return false;
-		}
-		if( !is_array( $spamwords ) ) $spamwords = array( $spamwords );
-		foreach( $spamwords as $spamstring ) {
-			if( ( $position = stripos( $submitted, $spamstring ) ) !== false ) return $position;
-		}
-		return false;
-	}
-
-	foreach( $submits as $spam_submit ) {
-		if( spam_keyword_check( $spam_submit, $spam_keywords ) ) {
-			// A successful message is displayed to the submitter that makes him think that the Form has been sent so that he cannot modify the keywords to prevent SPAM
-			echo '{ "alert": "success", "message": "' . $message['success'] . '" }';
-			exit;
-		}
 	}
 
 
@@ -237,13 +202,13 @@ if( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 		if( empty( $value ) ) continue;
 
 		$name = str_replace( $prefix , '', $name );
-		$name = mb_convert_case( $name, MB_CASE_TITLE, "UTF-8" );
+		$name = ucwords( str_replace( '-', ' ', $name ) );
 
 		if( is_array( $value ) ) {
 			$value = implode( ', ', $value );
 		}
 
-		$fields[$name] = nl2br( $value );
+		$fields[$name] = $value;
 
 	}
 
@@ -280,10 +245,10 @@ if( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 			$response[] = $fieldname . ': ' . $fieldvalue;
 		} else {
 			$fieldname = '<tr>
-								<td style="font-size: 16px; line-height: 24px; font-weight: bold; padding: 0 0 5px 0;" align="left">' . $fieldname . '</td>
+								<td class="hero-subheader__title" style="font-size: 16px; line-height: 24px; font-weight: bold; padding: 0 0 5px 0;" align="left">' . $fieldname . '</td>
 							</tr>';
 			$fieldvalue = '<tr>
-								<td style="font-size: 16px; line-height: 24px; color: #777777; padding: 0 15px 30px 0;" align="left">' . $fieldvalue . '</td>
+								<td class="hero-subheader__content" style="font-size: 16px; line-height: 24px; color: #777777; padding: 0 15px 30px 0;" align="left">' . $fieldvalue . '</td>
 							</tr>';
 			$response[] = $fieldname . $fieldvalue;
 		}
@@ -291,15 +256,17 @@ if( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 
 	$referrer = $_SERVER['HTTP_REFERER'] ? '<br><br><br>This Form was submitted from: ' . $_SERVER['HTTP_REFERER'] : '';
 
-	$html_before = '<table border="0" cellpadding="0" cellspacing="0" height="100%" width="100%" bgcolor="#eeeeee" style="width: 100%; height: 100%; padding: 50px 0 50px 0;">
+	$html_before = '<table class="full-width-container" border="0" cellpadding="0" cellspacing="0" height="100%" width="100%" bgcolor="#eeeeee" style="width: 100%; height: 100%; padding: 50px 0 50px 0;">
 				<tr>
 					<td align="center" valign="top">
-						<table border="0" cellpadding="0" cellspacing="0" width="84%" bgcolor="#ffffff" style="width: 84%;">
+						<!-- / 700px container -->
+						<table class="container" border="0" cellpadding="0" cellspacing="0" width="84%" bgcolor="#ffffff" style="width: 84%;">
 							<tr>
 								<td align="center" valign="top">
 									';
 
-	$html_after = '</td>
+	$html_after = '<!-- /// Footer -->
+								</td>
 							</tr>
 						</table>
 					</td>
@@ -310,24 +277,25 @@ if( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 		$body = implode( "<br>", $response ) . $referrer;
 	} else {
 		$html = $html_before . '<!-- / Header -->
-									<table border="0" cellpadding="0" cellspacing="0" width="84%" style="width: 84%;">
+									<table class="container header" border="0" cellpadding="0" cellspacing="0" width="84%" style="width: 84%;">
 										<tr>
 											<td style="padding: 30px 0 30px 0; border-bottom: solid 1px #eeeeee; font-size: 30px; font-weight: bold; text-decoration: none; color: #000000;" align="left">
 												' . $html_title . '
 											</td>
 										</tr>
 									</table>
+									<!-- /// Header -->
 
-									<!-- / Sub-Header -->
-									<table border="0" cellpadding="0" cellspacing="0" width="84%" style="width: 84%; padding: 60px 0 30px 0;"">
+									<!-- / Hero subheader -->
+									<table class="container hero-subheader" border="0" cellpadding="0" cellspacing="0" width="84%" style="width: 84%; padding: 60px 0 30px 0;"">
 										' . implode( '', $response ) . '
 									</table>
 
 									<!-- / Footer -->
-									<table border="0" cellpadding="0" cellspacing="0" width="100%" align="center">
+									<table class="container" border="0" cellpadding="0" cellspacing="0" width="100%" align="center">
 										<tr>
 											<td align="center">
-												<table border="0" cellpadding="0" cellspacing="0" width="84%" align="center" style="border-top: 1px solid #eeeeee; width: 84%;">
+												<table class="container" border="0" cellpadding="0" cellspacing="0" width="84%" align="center" style="border-top: 1px solid #eeeeee; width: 84%;">
 													<tr>
 														<td style="color: #d5d5d5; text-align: center; font-size: 12px; padding: 30px 0 30px 0; line-height: 22px;">' . strip_tags( $referrer ) . '</td>
 													</tr>
@@ -357,26 +325,27 @@ if( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 		$autoresponder->Subject = $ar_subject;
 
 		$ar_body = $html_before . '<!-- / Header -->
-					<table border="0" cellpadding="0" cellspacing="0" width="84%" style="width: 84%;">
+					<table class="container header" border="0" cellpadding="0" cellspacing="0" width="84%" style="width: 84%;">
 						<tr>
 							<td style="padding: 30px 0 30px 0; border-bottom: solid 1px #eeeeee; font-size: 30px; font-weight: bold; text-decoration: none; color: #000000;" align="left">
 								' . $ar_title . '
 							</td>
 						</tr>
 					</table>
+					<!-- /// Header -->
 
-					<!-- / Sub-Header -->
-					<table border="0" cellpadding="0" cellspacing="0" width="84%" style="width: 84%; padding: 60px 0 30px 0;"">
+					<!-- / Hero subheader -->
+					<table class="container hero-subheader" border="0" cellpadding="0" cellspacing="0" width="84%" style="width: 84%; padding: 60px 0 30px 0;"">
 						<tr>
-							<td style="font-size: 16px; line-height: 26px; color: #777777; padding: 0 15px 30px 0;" align="left">' . $ar_message . '</td>
+							<td class="hero-subheader__content" style="font-size: 16px; line-height: 26px; color: #777777; padding: 0 15px 30px 0;" align="left">' . $ar_message . '</td>
 						</tr>
 					</table>
 
 					<!-- / Footer -->
-					<table border="0" cellpadding="0" cellspacing="0" width="100%" align="center">
+					<table class="container" border="0" cellpadding="0" cellspacing="0" width="100%" align="center">
 						<tr>
 							<td align="center">
-								<table border="0" cellpadding="0" cellspacing="0" width="84%" align="center" style="border-top: 1px solid #eeeeee; width: 84%;">
+								<table class="container" border="0" cellpadding="0" cellspacing="0" width="84%" align="center" style="border-top: 1px solid #eeeeee; width: 84%;">
 									<tr>
 										<td style="color: #d5d5d5; text-align: center; font-size: 12px; padding: 30px 0 30px 0; line-height: 22px;">' . $ar_footer . '</td>
 									</tr>
@@ -390,7 +359,6 @@ if( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 	}
 
 	$mail->MsgHTML( $body );
-	$mail->CharSet = "UTF-8";
 	$sendEmail = $mail->Send();
 
 	if( $sendEmail == true ):
