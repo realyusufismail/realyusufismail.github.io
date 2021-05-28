@@ -1,7 +1,5 @@
 <!DOCTYPE html>
-<html dir="ltr" lang="en-US">
-<head>
-
+<html dir="ltr" lang="en-US"> <head src="https://code.jquery.com/jquery-1.10.2.js">
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	<meta name="author" content="SemiColonWeb" />
 	<link rel="shortcut icon" href="images/logo.jpg" type="image/jpg"	>
@@ -15,6 +13,7 @@
 	<link rel="stylesheet" href="css/font-icons.css" type="text/css" />
 	<link rel="stylesheet" href="css/animate.css" type="text/css" />
 	<link rel="stylesheet" href="css/magnific-popup.css" type="text/css" />
+	<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
 
 	<link rel="stylesheet" href="css/custom.css" type="text/css" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -22,7 +21,16 @@
 	<!-- Document Title
 	============================================= -->
 	<title>Coming Soon</title>
+	<div id="nav-placeholder">
 
+	</div>
+	<script>
+	
+		$(function(){
+		  $("#nav-placeholder").load("nav.html");
+		   $("#footer").load("footer.html");
+		});
+		</script>
 </head>
 
 <body class="stretched">
@@ -33,47 +41,7 @@
 
 		<!-- Top Bar
 		============================================= -->
-		<div id="top-bar">
-			<div class="container clearfix">
-
-				<div class="row justify-content-between">
-					<div class="col-12 col-md-auto">
-
-						<!-- Top Links
-						============================================= -->
-						<div class="top-links">
-							<ul class="top-links-container">
-								<li class="top-links-item px-1 ls2"><a href="index.html">Home</a></li>
-								<li class="top-links-item px-1 ls2"><a href="about-me.html">About me</a></li>
-								<li class="top-links-item px-1 ls2"><a href="https://realyusufismail.github.io/custom-mod/">Mod page</a></li>
-								<li class="top-links-item"><a href="">Mc Tutorials</a>
-								<ul class="top-links-sub-menu">
-									<li class="top-links-item"><a href="#">1.16 Tutorials</a></li>	
-								</ul>
-							</ul>
-						</div><!-- .top-links end -->
-					</div>
-
-
-					<div class="col-12 col-md-auto">
-
-						<!-- Top Social
-						============================================= -->
-						<ul id="top-social" class="justify-content-center justify-content-lg-end">
-							<li><a href="https://github.com/realyusufismail" class="si-github"><span class="ts-icon"><i class="icon-github"></i></span><span
-										class="ts-text">Github</span></a></li>
-							<li><a href="https://www.youtube.com/channel/UC1RUkzjpWtp4w3OoMKh7pGg" class="si-youtube"><span class="ts-icon"><i class="icon-youtube"></i></span><span
-										class="ts-text">Youtube</span></a></li>
-							<li><a href="https://www.patreon.com/YusufIsmail" class="si-patreon"><span class="ts-icon"><i class="icon-patreon"></i></span><span
-										class="ts-text">Patreon</span></a></li>
-						</ul><!-- #top-social end -->
-
-					</div>
-
-				</div>
-
-			</div>
-		</div><!-- #top-bar end -->
+		
 
 		<!-- Header
 		============================================= -->
@@ -121,45 +89,10 @@
 
 		<!-- Footer
 		============================================= -->
-		<footer id="footer" class="dark">
-			<!-- Copyrights
-			============================================= -->
-			<div id="copyrights">
-				<div class="container">
-
-					<div class="row col-mb-30">
-
-						<div class="col-md-6 text-center text-md-start">
-							Copyrights &copy; 2021 All Rights Reserved by Yusuf Ismail.<br>
-							<div class="copyright-links"><a href="#">Terms of Use</a> / <a href="#">Privacy Policy</a></div>
-						</div>
-
-						<div class="col-md-6 text-center text-md-end">
-							<div class="d-flex justify-content-center justify-content-md-end">				
-								<a href="https://github.com/realyusufismail" class="social-icon si-small si-borderless si-patreon">
-									<i class="icon-patreon"></i>
-									<i class="icon-patreon"></i>
-								</a>
-								<a href="ttps://www.youtube.com/channel/UC1RUkzjpWtp4w3OoMKh7pGg" class="social-icon si-small si-borderless si-youtube">
-									<i class="icon-youtube"></i>
-									<i class="icon-youtube"></i>
-								</a>
-								<a href="https://github.com/realyusufismail" class="social-icon si-small si-borderless si-github">
-									<i class="icon-github"></i>
-									<i class="icon-github"></i>
-								</a>
-
-	
-							</div>
-
-							<div class="clear"></div>
-						</div>
-
-					</div>
-
-				</div>
-			</div><!-- #copyrights end -->
-		</footer><!-- #footer end -->
+		<div id="footer">
+		
+		</div>
+			
 
 	</div><!-- #wrapper end -->
 
