@@ -113,24 +113,118 @@
 
 
 										<h2>How to add potion affects to armour</h2>
-										<p>Step 1: create a folder called events as seen here. <img src="images/events.png" alt="Italian Trulli"></p>
+										<p>Step 1: create a folder called events as seen here. <img src="images/events.png" alt="Events"></p>
 
-										<blockquote><p>Vestibulum id ligula porta felis euismod semper. Sed posuere consectetur est at lobortis. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper.</p></blockquote>
+										<p>Step 2: make a file in the event folder called yourarmoursetnameArmor.</p>
 
-										<p>Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Cras mattis consectetur purus sit amet fermentum. Donec id elit non mi porta gravida at eget metus.</p>
+										<p>
+											Step 3: after that at this point of your code <img src="images/example.png" alt="example"> you will insert this <pre> extends ArmorItem implements IForgeItem</pre>This is need for the event.</p>
 
-										<p>Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Aenean lacinia bibendum nulla sed consectetur. Cras justo odio, dapibus ac facilisis in, egestas eget quam. <a href="#">Nullam quis risus eget urna</a> mollis ornare vel eu leo. Integer posuere erat a ante venenatis dapibus posuere velit aliquet.</p>
+										</p>Step 4: Insert this under your code. This is important for the event.</p>
+										<pre> 
+public ExampleArmor(IArmorMaterial materialIn, EquipmentSlotType slot, Properties builder) {	
 
-	<pre>
-	#header-inner {
-		width: 940px;
-		margin: 0 auto;
-		padding-top: 40px;
-	}</pre>
+super(materialIn, slot, builder);	
+														
+} 
+</pre>
+									</p>Step 5: insert this code. This is an @Override method. Every time there is armor tick the effects load.</p>
+									<pre> 
+@Override
+public void onArmorTick(ItemStack stack, World world, PlayerEntity player) {
+										</pre>
+									</p>Step 6: Now specify the items. were the legs go for example. This is need for the next part of the code. Now we will add the potion affects. The game also need this like when head,chest,legs and boots give affect. thats why you alo have to say which is which for the next part. in step 7 you will do this boots.getItem() == ItemInit.HEATBLAST_BOOT.get() which mean that the boots is HEATBLAST_BOOT which means the game knows that if HEATBLAST_BOOT is equiped it is the boots.</p>
+<pre>
+	ItemStack boots = player.getItemBySlot(EquipmentSlotType.FEET);
+		ItemStack legs = player.getItemBySlot(EquipmentSlotType.LEGS);
+		ItemStack chest = player.getItemBySlot(EquipmentSlotType.CHEST);
+		ItemStack head = player.getItemBySlot(EquipmentSlotType.HEAD);
+</pre>
 
-										<p>Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Cras mattis consectetur purus sit amet fermentum. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Praesent commodo cursus magna, vel scelerisque nisl consectetur et.</p>
+<p>
+	Step 7: Now we say if legs equal example leggings chest equal example chestplate ect. This is important if we want the effect to applied when all armour is worn and when a piece of that armor is taken off the effects are removed. After that we put what potion effects we want. like if we want fire resistance when armour worn. 100 in the code is 10 seconds in agme which mean after the one peace of the armour is taken of the potion only remains for 10 seconds and the 1 is the level of the potion affect. like FIRE_RESISTANCE 1.</p>
+<pre>if (boots.getItem() == ItemInit.HEATBLAST_BOOT.get() && legs.getItem() == ItemInit.HEATBLAST_LEGGINGS.get() && chest.getItem() == ItemInit.HEATBLAST_CHESTPLATE.get() && head.getItem() == ItemInit.HEATBLAST_HELMET.get()) { 
+	player.addEffect(new EffectInstance(Effects.FIRE_RESISTANCE, 100, 1, false, false, true));
+}
+note change heatblast to your armor	
+</pre>
+<p>Step 8: in your ItemInit the file were you register all your tools and items were it has  your ArmorSet like here.</p>
+<pre>public static final RegistryObject<Item> HELMET = ITEMS.register("helmet",
+	() -> new ArmorItem(CustomArmorMaterial.ARMOUR, EquipmentSlotType.HEAD,
+			new Item.Properties().tab(MainItemGroup.MAIN)));
 
-										<p>Nullam id dolor id nibh ultricies vehicula ut id elit. Curabitur blandit tempus porttitor. Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Donec id elit non mi porta gravida at eget metus. Vestibulum id ligula porta felis euismod semper.</p>
+public static final RegistryObject<Item> CHESTPLATE = ITEMS.register("chestplate",
+	() -> new ArmorItem(CustomArmorMaterial.ARMOUR, EquipmentSlotType.CHEST,
+			new Item.Properties().tab(MainItemGroup.MAIN)));
+
+public static final RegistryObject<Item> LEGGINGS = ITEMS.register("leggings",
+	() -> new ArmorItem(CustomArmorMaterial.ARMOUR, EquipmentSlotType.LEGS,
+			new Item.Properties().tab(MainItemGroup.MAIN)));
+
+public static final RegistryObject<Item> BOOT = ITEMS.register("boot",
+	() -> new ArmorItem(CustomArmorMaterial.ARMOUR, EquipmentSlotType.FEET,
+			new Item.Properties().tab(MainItemGroup.MAIN)));
+</pre>
+<p>change the new ArmorItem to what you called the file like ExampleArmor for example so it should look like this now. This is important as you are registering it here.</p>
+<pre>public static final RegistryObject<Item> HELMET = ITEMS.register("helmet",
+	() -> new ExampleArmor(CustomArmorMaterial.ARMOUR, EquipmentSlotType.HEAD,
+			new Item.Properties().tab(MainItemGroup.MAIN)));
+
+public static final RegistryObject<Item> CHESTPLATE = ITEMS.register("chestplate",
+	() -> new ExampleArmor(CustomArmorMaterial.ARMOUR, EquipmentSlotType.CHEST,
+			new Item.Properties().tab(MainItemGroup.MAIN)));
+
+public static final RegistryObject<Item> LEGGINGS = ITEMS.register("leggings",
+	() -> new ExampleArmor(CustomArmorMaterial.ARMOUR, EquipmentSlotType.LEGS,
+			new Item.Properties().tab(MainItemGroup.MAIN)));
+
+public static final RegistryObject<Item> BOOT = ITEMS.register("boot",
+	() -> new ExampleArmor(CustomArmorMaterial.ARMOUR, EquipmentSlotType.FEET,
+			new Item.Properties().tab(MainItemGroup.MAIN)));
+		</pre>
+
+		<p>you are done know for potion affects on all armour piece but if you just want add a potion to effect to like a chestplate or leggings you would do this. you will need to name your file like this ExampleArmorItem Example will be what your armor piece is called.</p>
+
+		<p>Step 7: Do all the same steps apart from step 6 and instead of step 7 you will also have a @Override method but it will look like this.</p>
+		<pre>@Override
+			public void onArmorTick(ItemStack stack, World world, PlayerEntity player) {
+					EffectInstance effect = new EffectInstance(Effects.FIRE_RESISTANCE, 100, 1, false, false, true);
+					if (stack.getItem() == ItemInit.JACKET.get()) {
+						player.addEffect(effect);
+				}
+			}
+		</pre>
+		<p>jacket is basically a chestplate and in your iteminit instead off all the armourset you will only do it for the one peace of armour like here</p>
+		<pre>public static final RegistryObject<Item> BOOT = ITEMS.register("boot",
+			() -> new ArmorItem(CustomArmorMaterial.ARMOUR, EquipmentSlotType.FEET,
+					new Item.Properties().tab(MainItemGroup.MAIN)));
+				</pre>
+
+				<p>instead of ArmorItem you will do ExampleArmorItem like here.</p>
+
+				<pre>public static final RegistryObject<Item> BOOT = ITEMS.register("boot",
+					() -> new ExampleArmorItem(CustomArmorMaterial.ARMOUR, EquipmentSlotType.FEET,
+							new Item.Properties().tab(MainItemGroup.MAIN)));
+						</pre>
+<p>Now you are done if it does not work join my <a href=" https://discord.gg/QCYJmGdKTJ">discord</a> and ask for support.</p>
+
+<h2>How to make it when wearing full armor you are able to fly.</h2>
+
+<p>Step 1: All you have to is add</p>
+<pre>player.abilities.mayfly = true;
+	player.fallDistance = 0.0F;
+	player.abilities.setFlyingSpeed(0.1F);</pre>
+
+	<p>under</p>
+
+<pre>if (boots.getItem() == ItemInit.HEATBLAST_BOOT.get() && legs.getItem() == ItemInit.HEATBLAST_LEGGINGS.get() && chest.getItem() == ItemInit.HEATBLAST_CHESTPLATE.get() && head.getItem() == ItemInit.HEATBLAST_HELMET.get()) {
+
+</pre>
+
+<p>You are done with this tutorial.</p>
+
+<h4>Next <a href="crafting_recipes.html">tutorial</a></h4>
+
 										<!-- Post Single - Content End -->
 
 										
